@@ -58,7 +58,7 @@ jobs:
         context: .
         file: dockerfile
         load: true
-        tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
+        tags: ${{secrets.DOCKERHUB_USERNAME}}/devsecops_accelerator:latest, ${{secrets.DOCKERHUB_USERNAME}}/devsecops_accelerator:${{github.run_number}}
 
       # -
       #   name: Checkout
