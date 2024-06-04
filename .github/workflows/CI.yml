@@ -97,12 +97,12 @@ jobs:
         ls /tmp/artifacts/
         cat /tmp/artifacts/trivy-image-results.sarif
       
-  docker-image-push:
-    runs-on: ubuntu-latest
-    steps:
-    -
-      name: Checkout
-      uses: actions/checkout@v4
+  # docker-image-push:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   -
+  #     name: Checkout
+  #     uses: actions/checkout@v4
 
     -
       name: Docker Login
