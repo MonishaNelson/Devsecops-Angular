@@ -1,0 +1,151 @@
+name: DevSecops Accelerator
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+    
+#workflow_dispatch:
+
+jobs:
+  Code-build-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout the code
+      uses: actions/checkout@v4
+    - name: Use Node.js 22
+      uses: actions/setup-node@v3
+      
+      with:
+        node-version: '22'
+    - run: npm ci
+    - run: npm run build --if-present
+    
+
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      with:
+        args: >
+          -Dsonar.projectKey=my-angular-helloworld
+          #-Dsonar.host.url=http://localhost:9000 
+          #-Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      env:
+        SONAR_HOST_URL: http://localhost:9000 
+        SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
+        
+
+  docker-image-build-scan:
+
+    runs-on: ubuntu-latest
+              
+    steps:
+    -
+      name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    -
+      name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    -
+      name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        context: ./dockerfile
+        load: true
+        tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
+    - 
+      name: Test
+      run: |
+        docker run --rm ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
+
+    # -
+    #   name: Checkout
+    #   uses: actions/checkout@v4
+      
+    # - name: Extract current date and time
+    #   id: datetime
+    #   run: echo "DATETIME=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+    # -
+    #   name: Docker Login
+    #   uses: docker/login-action@v3.2.0 
+    #   with:
+    #     username: monishanelson
+    #     password: Moni1305!
+    # -
+    #   name: Docker Build
+    #   run: | 
+    #     #TAG="angular-app1-${{ env.DATETIME }}"
+        
+    #     docker build -t my-angular-app1:angular-app1 .                                            #angular-app1
+    #     docker tag my-angular-app1:angular-app1 monishanelson/devsecops_accelerator:angular-app1 #angular-app1
+    #     #docker push monishanelson/devsecops_accelerator:angular-app1                             #angular-app1
+   
+    -
+      name: Image Scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: monishanelson/devsecops_accelerator:angular-app1                     #angular-app1
+        format: 'table'                   
+        exit-code: '1'
+        ignore-unfixed: true
+        output: 'trivy-image-results.sarif'
+        vuln-type: 'os,library' 
+        severity: HIGH,CRITICAL
+      
+    - name: Save SARIF file
+      run: |
+        mkdir -p /tmp/artifacts
+        cp trivy-image-results.sarif /tmp/artifacts/
+        ls /tmp/artifacts/
+        cat /tmp/artifacts/trivy-image-results.sarif
+      
+            #- name: Upload Trivy scan results to GitHub Security tab
+            #   uses: github/codeql-action/upload-sarif@v3.25.6
+            #   with:
+            #     sarif_file: 'trivy-image-results.sarif'
+            #     category: 'image'
+
+  docker-image-push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Source
+      uses: actions/checkout@v4
+    -
+      name: Docker Login
+      uses: docker/login-action@v3.2.0 
+      with:
+        username: monishanelson
+        password: Moni1305! 
+                        
+    - name: Docker Push image to Docker Hub
+      run:
+        docker push monishanelson/devsecops_accelerator:angular-app1
+
+  HelmTemplateValidation:
+
+    runs-on: ubuntu-latest
+    steps:
+    -
+      name: Checkout
+      uses: actions/checkout@v4
+          
+    - name: Debug Environment Variables
+      run: |
+        echo "CHART_LOCATION: ${{ env.CHART_LOCATION }}"
+        echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
+                
+    - name: GitHub Action for Helm Templates Validation
+      uses: hopisaurus/helm-check-action@v0.1.1
+      env:
+        CHART_LOCATION: ./angular-chart
+        CHART_VALUES: ./angular-chart/values.yaml
+                    
+                  
+                    
+        

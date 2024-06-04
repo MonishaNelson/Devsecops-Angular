@@ -1,0 +1,6 @@
+apiVersion: v2
+name: angular-app
+description: A Helm chart for deploying Angular app with Nginx
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
