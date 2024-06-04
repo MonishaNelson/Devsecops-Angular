@@ -75,6 +75,9 @@ jobs:
         run: | 
           
           docker build -t angular-app:latest .
+          docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
+
           
       
       - name: List Docker Images
@@ -105,17 +108,17 @@ jobs:
   #     name: Checkout
   #     uses: actions/checkout@v4
 
-      -
-       name: Docker Login
-       uses: docker/login-action@v3.2.0 
-       with:
-         username: ${{ secrets.DOCKERHUB_USERNAME }}
-         password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # -
+      #  name: Docker Login
+      #  uses: docker/login-action@v3.2.0 
+      #  with:
+      #    username: ${{ secrets.DOCKERHUB_USERNAME }}
+      #    password: ${{ secrets.DOCKERHUB_TOKEN }}
                     
-      - name: Docker Push image to Docker Hub
-        run: |
-          docker tag angular-app:latest monishanelson/devsecops-accelerator:${{github.run_number}}
-          docker push monishanelson/devsecops_accelerator:${{github.run_number}}
+      # - name: Docker Push image to Docker Hub
+      #   run: |
+      #     docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
+      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
 
   HelmTemplateValidation:
 
