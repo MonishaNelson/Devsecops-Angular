@@ -56,13 +56,6 @@ jobs:
           # tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}                                            #angular-app1
           docker tag angular-app:latest ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
            
-        
-      - 
-        name: Test
-        run: |
-          docker run --rm ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
-
-   
       -
         name: Image Scan
         uses: aquasecurity/trivy-action@master
@@ -112,6 +105,7 @@ jobs:
       run: |
         echo "CHART_LOCATION: ${{ env.CHART_LOCATION }}"
         echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
+        
                 
     - name: GitHub Action for Helm Templates Validation
       uses: hopisaurus/helm-check-action@v0.1.1
