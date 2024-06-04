@@ -113,7 +113,7 @@ jobs:
          password: ${{ secrets.DOCKERHUB_TOKEN }}
                     
       - name: Docker Push image to Docker Hub
-        run:
+        run: |
           docker tag angular-app:latest monishanelson/devsecops-accelerator:${{github.run_number}}
           docker push monishanelson/devsecops_accelerator:${{github.run_number}}
 
