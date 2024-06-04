@@ -76,7 +76,7 @@ jobs:
           
           docker build -t angular-app:latest .
           # tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}                                            #angular-app1
-          docker tag angular-app:latest ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
+          docker tag angular-app:latest ${{secrets.DOCKERHUB_USERNAME}}/devsecops-accelerator:${{github.run_number}}
            
       -
         name: Image Scan
@@ -113,7 +113,7 @@ jobs:
                     
       - name: Docker Push image to Docker Hub
         run:
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
+          docker push ${{secrets.DOCKERHUB_USERNAME}}/devsecops_accelerator:${{github.run_number}}
 
   HelmTemplateValidation:
 
