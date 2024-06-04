@@ -75,9 +75,10 @@ jobs:
         run: | 
           
           docker build -t angular-app:latest .
-          # tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}                                            #angular-app1
           docker tag angular-app:latest ${{secrets.DOCKERHUB_USERNAME}}/devsecops-accelerator:${{github.run_number}}
-           
+      
+      - name: List Docker Images
+        run: docker images    
       -
         name: Image Scan
         uses: aquasecurity/trivy-action@master
