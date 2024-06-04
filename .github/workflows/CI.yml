@@ -55,8 +55,8 @@ jobs:
       name: Build and push
       uses: docker/build-push-action@v5
       with:
-        context: .
-        file: dockerfile
+        context: ./Devsecops-Angular
+        file: ./Devsecops-Angular/dockerfile
         load: true
         tags: ${{secrets.DOCKERHUB_USERNAME}}/angular-app:latest, ${{secrets.DOCKERHUB_USERNAME}}/angular-app:${{github.run_number}}
 
