@@ -75,11 +75,7 @@ jobs:
         run: | 
           
           docker build -t angular-app:latest .
-          docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
-
-          
-      
+    
       - name: List Docker Images
         run: docker images    
       -
@@ -100,6 +96,11 @@ jobs:
           cp trivy-image-results.sarif /tmp/artifacts/
           ls /tmp/artifacts/
           cat /tmp/artifacts/trivy-image-results.sarif
+
+      - name: Docker Push image to Docker Hub
+        run: |
+          docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
       
   # docker-image-push:
   #   runs-on: ubuntu-latest
@@ -115,10 +116,7 @@ jobs:
       #    username: ${{ secrets.DOCKERHUB_USERNAME }}
       #    password: ${{ secrets.DOCKERHUB_TOKEN }}
                     
-      # - name: Docker Push image to Docker Hub
-      #   run: |
-      #     docker tag ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
-      #     docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
+     
 
   HelmTemplateValidation:
 
