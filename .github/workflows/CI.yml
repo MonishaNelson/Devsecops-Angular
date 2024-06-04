@@ -114,8 +114,8 @@ jobs:
                     
       - name: Docker Push image to Docker Hub
         run:
-          docker tag angular-app:latest ${{secrets.DOCKERHUB_USERNAME}}/devsecops-accelerator:${{github.run_number}}
-          docker push ${{secrets.DOCKERHUB_USERNAME}}/devsecops_accelerator:${{github.run_number}}
+          docker tag angular-app:latest monishanelson/devsecops-accelerator:${{github.run_number}}
+          docker push monishanelson/devsecops_accelerator:${{github.run_number}}
 
   HelmTemplateValidation:
 
