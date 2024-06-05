@@ -111,7 +111,7 @@ jobs:
 
     - name: Update Helm   Values
       run: |
-        envsubst < angular-chart/values.yaml> angular-chart/values.yaml
+        sed -i "7s/tag: .*/tag: \"${{ env.IMAGE_TAG }}\"/" angular-chart/values.yaml
         cat angular-chart/values.yaml
         
                 
