@@ -52,14 +52,14 @@ jobs:
       #- Code-Build-SonarScan
     
     steps:
-      -
-        name: Checkout
-        uses: actions/checkout@v4
+      # -
+      #   name: Checkout
+      #   uses: actions/checkout@v4
 
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifact 
+      # - name: Download build artifact
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: build-artifact 
 
       -
         name: Docker Login
