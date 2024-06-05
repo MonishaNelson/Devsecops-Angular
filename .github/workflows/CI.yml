@@ -79,10 +79,9 @@ jobs:
         run: |
           docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
-          
+
       - name: Docker Tag
-        id: docker_tag
-        run: echo "::set-output name=image-tag::${{ github.run_number }}" 
+        run: echo "IMAGE_TAG=${{ github.run_number }}" >> $GITHUB_ENV 
 
   HelmTemplateValidation:
 
@@ -96,6 +95,11 @@ jobs:
       run: |
         echo "CHART_LOCATION: ${{ env.CHART_LOCATION }}"
         echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
+
+    - name: Update Helm Values
+      run: |
+        sed -i '7s/tag:.*/tag: ${{ env.IMAGE_TAG }}/' angular-chart/values.yaml
+        cat angular-chart/values.yaml
         
                 
     - name: GitHub Action for Helm Templates Validation
