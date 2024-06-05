@@ -48,8 +48,8 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs:
-      - Code-Build-SonarScan
+    #needs:
+      #- Code-Build-SonarScan
     
     steps:
       -
