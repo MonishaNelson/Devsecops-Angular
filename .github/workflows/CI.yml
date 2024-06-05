@@ -33,12 +33,11 @@ jobs:
         SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
         
 
-  docker-image-build-scan:
+  docker-image-build:
 
     runs-on: ubuntu-latest
 
-    outputs:
-      image-tag: ${{ steps.set_image_tag.outputs.image-tag }}
+
               
     steps:
       -
@@ -59,6 +58,19 @@ jobs:
     
       - name: List Docker Images
         run: docker images    
+
+  docker-image-scan:
+
+    runs-on: ubuntu-latest
+
+    needs:
+      - docker-image-build
+
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v4
+
       -
         name: Image Scan
         uses: aquasecurity/trivy-action@master
@@ -78,6 +90,15 @@ jobs:
           ls /tmp/artifacts/
           cat /tmp/artifacts/trivy-image-results.sarif
 
+  docker-image-push:  
+    
+    runs-on: ubuntu-latest
+
+    outputs:
+      image-tag: ${{ steps.set_image_tag.outputs.image-tag }}
+ 
+    steps:
+
       - name: Docker Push image to Docker Hub
         run: |
           docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
@@ -90,11 +111,11 @@ jobs:
           echo "::set-output name=image-tag::${{ github.run_number }}"
 
 
-  HelmTemplateValidation:
+  HelmBuild:
 
     runs-on: ubuntu-latest
     needs:
-    - docker-image-build-scan
+    - docker-image-push
 
     steps:
     -
@@ -107,7 +128,7 @@ jobs:
         echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
 
     - name: Set Image Tag
-      run: echo "IMAGE_TAG= ${{ needs.docker-image-build-scan.outputs.image-tag }}" >> $GITHUB_ENV
+      run: echo "IMAGE_TAG= ${{ needs.docker-image-push.outputs.image-tag }}" >> $GITHUB_ENV
 
     - name: Update Helm   Values
       run: |
