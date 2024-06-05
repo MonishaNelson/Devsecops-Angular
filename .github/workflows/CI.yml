@@ -164,7 +164,7 @@ jobs:
           echo "::set-output name=image-tag::${{ github.run_number }}"
 
 
-  Helm-Build-Validate:
+  Helm-Validate:
 
     runs-on: ubuntu-latest
 
