@@ -122,10 +122,8 @@ jobs:
         CHART_VALUES: ./angular-chart/values.yaml
 
   PushHelmChart:
-
-  runs-on: ubuntu-latest
-
-  needs:
+    runs-on: ubuntu-latest
+    needs:
     - HelmTemplateValidation
   
     steps:
