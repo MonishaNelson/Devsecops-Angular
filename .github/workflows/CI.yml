@@ -36,6 +36,8 @@ jobs:
   docker-image-build-scan:
 
     runs-on: ubuntu-latest
+    outputs:
+      image-tag: ${{steps.docker_tag.outputs.image-tag }}
               
     steps:
       -
@@ -96,9 +98,12 @@ jobs:
         echo "CHART_LOCATION: ${{ env.CHART_LOCATION }}"
         echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
 
+    - name: Set Image Tag
+      run: echo "IMAGE_TAG=${{ needs.docker-image-build-scan.outputs.image-tag }}" >> $GITHUB_ENV
+
     - name: Update Helm Values
       run: |
-        sed -i '7s/tag:.*/tag: ${{ env.IMAGE_TAG }}/' angular-chart/values.yaml
+        envsubst < angular-chart/values.yaml.template > angular-chart/values.yaml
         cat angular-chart/values.yaml
         
                 
