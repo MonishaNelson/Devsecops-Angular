@@ -108,7 +108,7 @@ jobs:
 
     - name: Update Helm Values
       run: |
-        envsubst < angular-chart/values.yaml.template > angular-chart/values.yaml
+        envsubst < angular-chart/values.yaml> angular-chart/values.yaml
         cat angular-chart/values.yaml
         
                 
