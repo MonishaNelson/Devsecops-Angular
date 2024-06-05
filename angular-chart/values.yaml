@@ -4,7 +4,7 @@ image:
   repository: monishanelson/devsecops_accelerator
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "{{ .Values.imageTag }}"
+  tag: 
   
 annotations:
   name: angular-app
