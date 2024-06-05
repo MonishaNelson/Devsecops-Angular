@@ -104,7 +104,7 @@ jobs:
         echo "CHART_VALUES: ${{ env.CHART_VALUES }}"
 
     - name: Set Image Tag
-      run: echo "IMAGE_TAG=${{ needs.docker-image-build-scan.outputs.image-tag }}" >> $GITHUB_ENV
+      run: echo "IMAGE_TAG= ${{ needs.docker-image-build-scan.outputs.image-tag }}" >> $GITHUB_ENV
 
     - name: Update Helm Values
       run: |
