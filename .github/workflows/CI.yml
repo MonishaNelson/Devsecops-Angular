@@ -36,9 +36,8 @@ jobs:
   docker-image-build:
 
     runs-on: ubuntu-latest
-
-
-              
+    
+    
     steps:
       -
         name: Checkout
@@ -55,9 +54,16 @@ jobs:
         run: | 
           
           docker build -t angular-app:latest .
+          docker save angular-app:latest -o angular-app.tar
     
       - name: List Docker Images
-        run: docker images    
+        run: docker images  
+        
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: angular-app
+          path: angular-app.tar
 
   docker-image-scan:
 
@@ -67,6 +73,17 @@ jobs:
       - docker-image-build
 
     steps:
+
+      - 
+       name: Download Docker image artifact
+       uses: actions/download-artifact@v3
+       with:
+         name: angular-app
+
+      - 
+       name: Load Docker image
+       run: docker load -i angular-app.tar   
+
       -
         name: Checkout
         uses: actions/checkout@v4
@@ -102,6 +119,14 @@ jobs:
  
     steps:
 
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: angular-app
+
+      - name: Load Docker image
+        run: docker load -i angular-app.tar
+
       - name: Docker Push image to Docker Hub
         run: |
           docker tag angular-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
@@ -114,10 +139,10 @@ jobs:
           echo "::set-output name=image-tag::${{ github.run_number }}"
 
 
-  HelmBuild:
+  Helm-Build-Validate:
 
     runs-on: ubuntu-latest
-    
+
     needs:
     - docker-image-push
 
