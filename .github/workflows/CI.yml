@@ -36,8 +36,9 @@ jobs:
   docker-image-build-scan:
 
     runs-on: ubuntu-latest
+
     outputs:
-      image-tag: ${{steps.docker_tag.outputs.image-tag }}
+      image-tag: ${{ steps.set_image_tag.outputs.image-tag }}
               
     steps:
       -
@@ -83,7 +84,11 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/devsecops_accelerator:${{github.run_number}}
 
       - name: Docker Tag
-        run: echo "IMAGE_TAG=${{ github.run_number }}" >> $GITHUB_ENV 
+        id: set_image_tag
+        run: |
+          echo "image-tag=${{ github.run_number }}" >> $GITHUB_ENV
+          echo "::set-output name=image-tag::${{ github.run_number }}"
+
 
   HelmTemplateValidation:
 
