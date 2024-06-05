@@ -23,14 +23,20 @@ jobs:
     - run: npm run build --if-present
     
 
-    - name: SonarQube Scan
-      uses: sonarsource/sonarqube-scan-action@master
+    # - name: SonarQube Scan
+    #   uses: sonarsource/sonarqube-scan-action@master
+    #   with:
+    #     args: >
+    #       -Dsonar.projectKey=my-angular-helloworld
+    #   env:
+    #     SONAR_HOST_URL: http://localhost:9000 
+    #     SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v3
       with:
-        args: >
-          -Dsonar.projectKey=my-angular-helloworld
-      env:
-        SONAR_HOST_URL: http://localhost:9000 
-        SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
+        name: build-artifact
+        path: dist
         
 
   docker-image-build:
@@ -44,6 +50,11 @@ jobs:
       -
         name: Checkout
         uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifact 
 
       -
         name: Docker Login
