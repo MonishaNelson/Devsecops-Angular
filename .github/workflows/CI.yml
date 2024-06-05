@@ -136,14 +136,14 @@ jobs:
         helm package ./angular-chart -d packaged-charts
         ls -l packaged-charts
         
-    # - name: Add Helm Repository
-    #   run: |
-    #     helm repo add my-helm-repo <repository_URL>
-    #     helm repo update
+    - name: Add Helm Repository
+      run: |
+        helm repo add my-helm-repo https://github.com/MonishaNelson/helmchart.git
+        helm repo update
         
-    # - name: Push Helm Chart
-    #   run: |
-    #     helm push ./packaged-charts/angular-chart-*.tgz my-helm-repo --username <your_username> --password ${{ secrets.PAT_TOKEN }}
+    - name: Push Helm Chart
+      run: |
+        helm push ./packaged-charts/angular-chart-*.tgz my-helm-repo --username MonishaNelson --password ${{ secrets.PAT_TOKEN }}
         
                     
                   
