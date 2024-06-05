@@ -120,6 +120,33 @@ jobs:
       env:
         CHART_LOCATION: ./angular-chart
         CHART_VALUES: ./angular-chart/values.yaml
+
+  PushHelmChart:
+
+  runs-on: ubuntu-latest
+
+  needs:
+    - HelmTemplateValidation
+  
+    steps:
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+        
+    - name: Package Helm Chart
+      run: |
+        helm package ./angular-chart -d packaged-charts
+        ls -l packaged-charts
+        
+    # - name: Add Helm Repository
+    #   run: |
+    #     helm repo add my-helm-repo <repository_URL>
+    #     helm repo update
+        
+    # - name: Push Helm Chart
+    #   run: |
+    #     helm push ./packaged-charts/angular-chart-*.tgz my-helm-repo --username <your_username> --password ${{ secrets.PAT_TOKEN }}
+        
                     
                   
                     
