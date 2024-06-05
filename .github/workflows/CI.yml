@@ -37,11 +37,11 @@ jobs:
         SONAR_HOST_URL: http://localhost:9000 
         SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
 
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifact
-        path: dist
+    # - name: Upload build artifact
+    #   uses: actions/upload-artifact@v4
+    #   with:
+    #     name: build-artifact
+    #     path: dist
         
       
   Image-build:
