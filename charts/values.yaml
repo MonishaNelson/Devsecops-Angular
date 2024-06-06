@@ -11,8 +11,11 @@ annotations:
 
 # Define service port and type
 service:
-  type: ClusterIP
-  port: 80  
+  type: ClusterIP 
+  port: 80 
+  name: http 
+  protocol: TCP 
+  targetPort: http
 
 resources: 
   limits:

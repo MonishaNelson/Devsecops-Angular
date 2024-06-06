@@ -23,8 +23,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }} 
           ports:
-            - name: http
+            - name: {{.Values.service.name}}
               containerPort: {{ .Values.service.port }}
-              protocol: TCP
+              protocol: {{.Values.service.protocol}}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

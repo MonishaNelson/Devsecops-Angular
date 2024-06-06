@@ -1,9 +1,9 @@
 name: DevSecops Accelerator - Angular Boiler Plate
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master" ] #Sample branch 
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master" ] #Sample branch
 
     
 #workflow_dispatch:
@@ -36,6 +36,7 @@ jobs:
       env:
         SONAR_HOST_URL: http://localhost:9000 
         SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
+
 
     # - name: Upload build artifact
     #   uses: actions/upload-artifact@v4
@@ -196,6 +197,7 @@ jobs:
         CHART_LOCATION: ./charts
         CHART_VALUES: ./charts/values.yaml
 
+        
         
   # PushHelmChart:
   #   runs-on: ubuntu-latest
