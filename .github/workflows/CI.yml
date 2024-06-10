@@ -219,7 +219,7 @@ jobs:
     - name: Create Helm Package
       run: helm package ./charts -d packaged-charts
       
-    - name: Debug Packaged Charts Directory
+    - name: list Packaged Charts Directory
       run: ls packaged-charts
 
     - name: Push Helm Chart to GitHub
@@ -235,7 +235,7 @@ jobs:
           cd gh-pages
           git add $PACKAGE_NAME
           git commit -m "Add $PACKAGE_NAME"
-          git push
+
           
 
 
