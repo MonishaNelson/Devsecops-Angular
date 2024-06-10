@@ -250,7 +250,6 @@ jobs:
         echo "Package Name: $PACKAGE_NAME"
         git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
         cd gh-pages
-        git checkout -b gh-pages
         cp ../$PACKAGE_NAME .
         git add $PACKAGE_NAME
         git commit -m "Add $PACKAGE_NAME"
