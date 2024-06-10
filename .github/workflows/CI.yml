@@ -222,6 +222,7 @@ jobs:
     
     needs:
       - Helm-Build
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -233,7 +234,7 @@ jobs:
         path: packaged-charts
 
     - name: List
-      uses: ls packaged-charts
+      run : ls packaged-charts
 
     - name: Configure Git
       run: |
