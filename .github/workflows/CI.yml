@@ -235,16 +235,7 @@ jobs:
 
 
 
-  #gitpush
-        
-  #   - name: Add Helm Repository
-  #     run: |
-  #       helm repo add my-helm-repo https://github.com/MonishaNelson/helmchart.git
-  #       helm repo update
-        
-  #   - name: Push Helm Chart
-  #     run: |
-  #       helm push ./packaged-charts/angular-chart-*.tgz my-helm-repo --username MonishaNelson --password ${{ secrets.PAT_TOKEN }}
+ 
         
                     
                   
