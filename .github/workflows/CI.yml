@@ -196,22 +196,14 @@ jobs:
         CHART_LOCATION: ./charts
         CHART_VALUES: ./charts/values.yaml
 
-  Helm-Push:
-
+ 
+  Helm-Build:
     runs-on: ubuntu-latest
-
     needs:
-    - Helm-Validate
-
+      - Helm-Validate
     steps:
-
     - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Configure Git
-      run: |
-        git config --global user.email monishamon1305@gmail.com
-        git config --global user.name MonishaNelson
 
     - name: Create Output Directory
       run: mkdir -p packaged-charts
@@ -219,9 +211,33 @@ jobs:
     - name: Create Helm Package
       run: helm package ./charts -d packaged-charts
 
-      
-    - name: list Packaged Charts Directory
-      run: ls -R packaged-charts
+    - name: Upload Packaged Charts
+      uses: actions/upload-artifact@v2
+      with:
+        name: packaged-charts
+        path: packaged-charts
+
+  Helm-Push:
+
+    runs-on: ubuntu-latest
+    
+    needs:
+      - Helm-Build
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Download Packaged Charts
+      uses: actions/download-artifact@v2
+      with:
+        name: packaged-charts
+        path: packaged-charts
+
+    - name: Configure Git
+      run: |
+        git config --global user.email monishamon1305@gmail.com
+        git config --global user.name MonishaNelson
+
 
     - name: Push Helm Chart to GitHub
       env:
