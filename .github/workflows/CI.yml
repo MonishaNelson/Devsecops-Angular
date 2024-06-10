@@ -244,15 +244,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           
       run: |
-          CHART_VERSION=$(cat charts/Chart.yaml | grep '^version:' | awk '{print $2}')
-          CHART_NAME=$(cat charts/Chart.yaml | grep '^name:' | awk '{print $2}')
-          PACKAGE_NAME="packaged-charts/${CHART_NAME}-${CHART_VERSION}.tgz"
-          git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
-          mv $PACKAGE_NAME gh-pages/
-          cd gh-pages
-          git add $PACKAGE_NAME
-          git commit -m "Add $PACKAGE_NAME"
-          git push
+        CHART_VERSION=$(cat charts/Chart.yaml | grep '^version:' | awk '{print $2}')
+        CHART_NAME=$(cat charts/Chart.yaml | grep '^name:' | awk '{print $2}')
+        PACKAGE_NAME="packaged-charts/${CHART_NAME}-${CHART_VERSION}.tgz"
+        echo "Package Name: $PACKAGE_NAME"
+        git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
+        cd gh-pages
+        git checkout -b gh-pages
+        cp ../$PACKAGE_NAME .
+        git add $PACKAGE_NAME
+        git commit -m "Add $PACKAGE_NAME"
+        git push origin gh-pages
           
 
           
