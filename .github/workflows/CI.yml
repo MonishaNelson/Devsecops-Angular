@@ -233,6 +233,9 @@ jobs:
         name: packaged-charts
         path: packaged-charts
 
+    - name: List
+      uses: ls packaged-charts
+      
     - name: Configure Git
       run: |
         git config --global user.email monishamon1305@gmail.com
