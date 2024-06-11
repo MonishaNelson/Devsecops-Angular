@@ -234,7 +234,10 @@ jobs:
         path: packaged-charts
 
     - name: List
-      run : ls packaged-charts
+      run : |
+       ls packaged-charts
+       pwd
+
 
     - name: Configure Git
       run: |
