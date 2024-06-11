@@ -238,7 +238,7 @@ jobs:
         echo "Current Directory:"
         pwd
         echo "Contents of packaged-charts:"
-        ls -al /home/runner/work/Devsecops-Angular/Devsecops-Angular
+        ls -al packaged-charts
 
 
     - name: Configure Git
@@ -255,10 +255,10 @@ jobs:
         CHART_VERSION=$(cat charts/Chart.yaml | grep '^version:' | awk '{print $2}')
         CHART_NAME=$(cat charts/Chart.yaml | grep '^name:' | awk '{print $2}')
         PACKAGE_NAME="${CHART_NAME}-${CHART_VERSION}.tgz"
-        cp packaged-charts/$PACKAGE_NAME .
+        cp /home/runner/work/Devsecops-Angular/Devsecops-Angular/packaged-charts/$PACKAGE_NAME .
         git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
         cd gh-pages
-        cp packaged-charts/$PACKAGE_NAME . 
+        cp /home/runner/work/Devsecops-Angular/Devsecops-Angular/packaged-charts/$PACKAGE_NAME . 
         git add $PACKAGE_NAME
         git commit -m "Add $PACKAGE_NAME"
         git push origin gh-pages
