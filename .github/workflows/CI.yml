@@ -238,7 +238,7 @@ jobs:
         echo "Current Directory:"
         pwd
         echo "Contents of packaged-charts:"
-        ls -al packaged-charts
+        ls -al /home/runner/work/Devsecops-Angular/Devsecops-Angular
 
 
     - name: Configure Git
