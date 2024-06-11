@@ -256,7 +256,7 @@ jobs:
         CHART_NAME=$(cat charts/Chart.yaml | grep '^name:' | awk '{print $2}')
         PACKAGE_NAME="${CHART_NAME}-${CHART_VERSION}.tgz"
         cp /home/runner/work/Devsecops-Angular/Devsecops-Angular/packaged-charts/$PACKAGE_NAME .
-        git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
+        git clone https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/MonishaNelson/Devsecops-Angular.git --branch gh-pages --single-branch gh-pages
         cd gh-pages
         cp /home/runner/work/Devsecops-Angular/Devsecops-Angular/packaged-charts/$PACKAGE_NAME . 
         git add $PACKAGE_NAME
