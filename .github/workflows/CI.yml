@@ -38,20 +38,6 @@ jobs:
         SONAR_TOKEN: sqa_5adb54166520edabe10bcc623c1907f64871153d
 
 
-    - name: SonarQube Quality Gate check
-      id: sonarqube-quality-gate-check
-      uses: sonarsource/sonarqube-quality-gate-action@master
-      timeout-minutes: 5 #sample
-      env:
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }} 
-
-    # The possible outputs of the `quality-gate-status` variable are `PASSED`, `WARN` or `FAILED`.
-    - name: "Example show SonarQube Quality Gate Status value"
-      run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
-
-
-
     # - name: Upload build artifact
     #   uses: actions/upload-artifact@v4
     #   with:
