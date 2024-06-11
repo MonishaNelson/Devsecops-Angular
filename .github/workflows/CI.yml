@@ -236,7 +236,7 @@ jobs:
     - name: List
       run : |
        ls packaged-charts
-       pwd
+       pwd ls
 
 
     - name: Configure Git
@@ -256,7 +256,7 @@ jobs:
         cp packaged-charts/$PACKAGE_NAME .
         git clone https://github.com/MonishaNelson/Devsecops-Angular --branch gh-pages --single-branch gh-pages
         cd gh-pages
-        cp packaged-charts/$PACKAGE_NAME .  #cp ../$PACKAGE_NAME .
+        cp packaged-charts/$PACKAGE_NAME . 
         git add $PACKAGE_NAME
         git commit -m "Add $PACKAGE_NAME"
         git push origin gh-pages
